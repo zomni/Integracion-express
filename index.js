@@ -12,7 +12,11 @@ app.use(express.json());
 // Dirección del backend Java
 const JAVA_API = 'http://localhost:8080/';
 
-// Rutas
+// Rutas locales de Express
+const contactoRoutes = require('./src/routes/contacto.routes');
+app.use('/contacto', contactoRoutes);
+
+// Rutas Java
 
 // GET - Obtener todos los usuarios
 app.get('/usuario', async (req, res) => {
