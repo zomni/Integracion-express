@@ -16,6 +16,10 @@ const JAVA_API = 'http://localhost:8080/';
 const contactoRoutes = require('./src/routes/contacto.routes');
 app.use('/contacto', contactoRoutes);
 
+const divisaRoutes = require('./src/routes/divisa.routes');
+app.use('/divisa', divisaRoutes);
+
+
 // Rutas Java
 
 // GET - Obtener todos los usuarios
