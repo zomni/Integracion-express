@@ -1,4 +1,5 @@
 const express = require('express');
+require('dotenv').config();
 const axios = require('axios');
 const cors = require('cors');
 
@@ -19,7 +20,8 @@ const divisaRoutes = require('./src/routes/divisa.routes');
 app.use('/divisa', divisaRoutes);
 const notificacionRoutes = require('./src/routes/notificacion.routes');
 app.use('/notificacion', notificacionRoutes);
-
+const validacionRoutes = require('./src/routes/validacion.routes');
+app.use('/validacion', validacionRoutes);
 
 
 // Rutas Java
