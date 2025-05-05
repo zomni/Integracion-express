@@ -15,9 +15,11 @@ const JAVA_API = 'http://localhost:8080/';
 // Rutas locales de Express
 const contactoRoutes = require('./src/routes/contacto.routes');
 app.use('/contacto', contactoRoutes);
-
 const divisaRoutes = require('./src/routes/divisa.routes');
 app.use('/divisa', divisaRoutes);
+const notificacionRoutes = require('./src/routes/notificacion.routes');
+app.use('/notificacion', notificacionRoutes);
+
 
 
 // Rutas Java
