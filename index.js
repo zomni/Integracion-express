@@ -9,6 +9,7 @@ const PORT = 3000;
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use(express.static('public'));
 
 // Dirección del backend Java
 const JAVA_API = 'http://localhost:8080/';
@@ -22,7 +23,6 @@ const notificacionRoutes = require('./src/routes/notificacion.routes');
 app.use('/notificacion', notificacionRoutes);
 const validacionRoutes = require('./src/routes/validacion.routes');
 app.use('/validacion', validacionRoutes);
-
 
 // Rutas Java
 

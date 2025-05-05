@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Validación reCAPTCHA</title>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</head>
+<body>
+  <h2>Validación reCAPTCHA</h2>
+
+  <form id="formulario" onsubmit="enviar(event)">
+    <div class="g-recaptcha" data-sitekey="6LfNRi4rAAAAAGYmv6jyVEZLDSQxAu8ZZzurmt6S"></div>
+    <br>
+    <button type="submit">Enviar</button>
+  </form>
+
+  <pre id="respuesta"></pre>
+
+  <script>
+    async function enviar(event) {
+      event.preventDefault();
+
+      const token = grecaptcha.getResponse();
+
+      if (!token) {
+        alert('Por favor, completa el captcha');
+        return;
+      }
+
+      try {
+        const res = await fetch('http://localhost:3000/validacion/recaptcha', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ token })
+        });
+
+        const data = await res.json();
+        document.getElementById('respuesta').textContent = JSON.stringify(data, null, 2);
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Error al enviar el token');
+      }
+    }
+  </script>
+</body>
+</html>
