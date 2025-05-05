@@ -1,0 +1,41 @@
+[
+  {
+    "fecha": "2025-05-05T00:44:29.254Z",
+    "tipo": "contacto",
+    "nombre": "Antonia",
+    "email": "srzomni@gmail.com",
+    "mensaje": "Hola, tengo una duda sobre mi pedido."
+  },
+  {
+    "fecha": "2025-05-05T00:55:47.799Z",
+    "tipo": "confirmacion",
+    "destinatario": "srzomni@gmail.com",
+    "nombreCliente": "Ana Torres",
+    "numeroPedido": "98273"
+  },
+  {
+    "fecha": "2025-05-05T00:56:17.445Z",
+    "tipo": "contacto",
+    "nombre": "Antonia",
+    "email": "srzomni@gmail.com",
+    "mensaje": "Hola."
+  },
+  {
+    "fecha": "2025-05-05T00:57:03.666Z",
+    "tipo": "promocion",
+    "destinatario": "srzomni@gmail.com",
+    "titulo": "¡Solo por hoy!"
+  },
+  {
+    "fecha": "2025-05-05T00:57:36.402Z",
+    "tipo": "recordatorio",
+    "destinatario": "srzommni@gmail.com",
+    "asunto": "Recordatorio de tu pedido"
+  },
+  {
+    "fecha": "2025-05-05T00:58:05.090Z",
+    "tipo": "generico",
+    "destinatario": "srzomni@gmail.com",
+    "asunto": "Mensaje personalizado"
+  }
+]
