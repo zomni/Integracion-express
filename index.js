@@ -11,77 +11,21 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
 
-// Dirección del backend Java
-const JAVA_API = 'http://localhost:8080/';
+// Dirección del backend Java (puede ajustarse vía .env si quieres)
+const JAVA_API = 'http://localhost:8080';
 
 // Rutas locales de Express
 const contactoRoutes = require('./src/routes/contacto.routes');
-app.use('/contacto', contactoRoutes);
 const divisaRoutes = require('./src/routes/divisa.routes');
-app.use('/divisa', divisaRoutes);
 const notificacionRoutes = require('./src/routes/notificacion.routes');
-app.use('/notificacion', notificacionRoutes);
 const validacionRoutes = require('./src/routes/validacion.routes');
+const proxyRoutes = require('./src/routes/proxy.routes');
+
+app.use('/contacto', contactoRoutes);
+app.use('/divisa', divisaRoutes);
+app.use('/notificacion', notificacionRoutes);
 app.use('/validacion', validacionRoutes);
-
-// Rutas Java
-
-// GET - Obtener todos los usuarios
-app.get('/usuario', async (req, res) => {
-  try {
-    const response = await axios.get(JAVA_API.concat('usuario'));
-    res.json(response.data);
-  } catch (error) {
-    console.error('Error al obtener usuarios:', error.message);
-    res.status(error.response?.status || 500).json({ error: 'Error al obtener usuarios' });
-  }
-});
-
-app.get('/sucursal', async (req, res) => {
-  try {
-    const response = await axios.get(JAVA_API.concat('sucursal'));
-    console.log(response.data);
-    res.json(response.data);
-  } catch (error) {
-    console.error('Error al obtener usuarios:', error.message);
-    res.status(error.response?.status || 500).json({ error: 'Error al obtener usuarios' });
-  }
-});
-
-// POST - Crear un nuevo usuario
-app.post('/usuario', async (req, res) => {
-  try {
-    const response = await axios.post(JAVA_API.concat('usuario'), req.body, {
-      headers: { 'Content-Type': 'application/json' }
-    });
-    res.json(response.data);
-  } catch (error) {
-    console.error('Error al crear usuario:', error.message);
-    res.status(error.response?.status || 500).json(error.response?.data || { error: 'Error inesperado' });
-  }
-});
-
-// PUT - Editar un usuario por ID
-app.put('/usuario/:id', async (req, res) => {
-  try {
-    const response = await axios.put(`${JAVA_API.concat('usuario')}/${req.params.id}`, req.body);
-    res.json(response.data);
-  } catch (error) {
-    console.error('Error al actualizar usuario:', error.message);
-    res.status(error.response?.status || 500).json({ error: 'Error al actualizar usuario' });
-  }
-});
-
-// DELETE - Eliminar usuario por ID
-app.delete('/usuario/:id', async (req, res) => {
-  try {
-    const response = await axios.delete(`${JAVA_API.concat('usuario')}/${req.params.id}`);
-    res.json({ mensaje: 'Usuario eliminado correctamente' });
-  } catch (error) {
-    console.error('Error al eliminar usuario:', error.message);
-    res.status(error.response?.status || 500).json({ error: 'Error al eliminar usuario' });
-  }
-});
+app.use('/java-api', proxyRoutes); // Gateway hacia Java
 
 // Servidor
 app.listen(PORT, () => {
