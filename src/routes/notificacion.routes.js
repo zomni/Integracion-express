@@ -5,7 +5,10 @@ const {
   enviarConfirmacion,
   enviarPromocion,
   enviarRecordatorio,
-  enviarGenerico
+  enviarGenerico,
+  obtenerHistorial,
+  descargarHistorial,
+  borrarHistorial
 } = require('../controllers/notificacion.controller');
 
 // POST /notificacion/confirmar - Confirmación de pedido
@@ -16,5 +19,12 @@ router.post('/promocion', enviarPromocion);
 router.post('/recordatorio', enviarRecordatorio);
 // POST /notificacion/enviar - Enviar mensaje genérico
 router.post('/enviar', enviarGenerico);
+// GET /notificacion/historial - Obtener historial de mail
+router.get('/historial', obtenerHistorial);
+// GET /notificacion/descargar - Descargar historial de mail
+router.get('/historial/descargar', descargarHistorial);
+
+router.delete('/historial/borrar', borrarHistorial);
+
 
 module.exports = router;
