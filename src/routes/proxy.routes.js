@@ -1,4 +1,3 @@
-// src/routes/proxy.routes.js
 const express = require('express');
 const router = express.Router();
 const proxyController = require('../controllers/proxy.controller');
