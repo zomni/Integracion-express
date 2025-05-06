@@ -20,6 +20,7 @@ const divisaRoutes = require('./src/routes/divisa.routes');
 const notificacionRoutes = require('./src/routes/notificacion.routes');
 const validacionRoutes = require('./src/routes/validacion.routes');
 const proxyRoutes = require('./src/routes/proxy.routes');
+const archivoRoutes = require('./src/routes/archivo.routes');
 
 // Middleware de caché
 const { cacheMiddleware } = require('./src/middlewares/cache.middleware');
@@ -54,6 +55,8 @@ app.use('/divisa', divisaRoutes);
 app.use('/notificacion', notificacionRoutes);
 app.use('/validacion', validacionRoutes);
 app.use('/java-api', proxyRoutes); // Gateway hacia Java
+app.use('/archivo', archivoRoutes);
+app.use('/uploads', express.static('uploads')); // Sirve los archivos estáticos desde /uploads
 
 // Servidor
 app.listen(PORT, () => {
