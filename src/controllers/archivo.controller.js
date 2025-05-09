@@ -6,16 +6,14 @@ const subirArchivoYNotificarJava = async (req, res) => {
   }
 
   const url = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
-  const { clienteId, tipo } = req.body; // puedes mandar más info si quieres
+  const { clienteId, tipo, pedidoId } = req.body;  // puedes mandar más info si quieres
 
   try {
-    // Cambia la URL según tu endpoint real en Java
-    const response = await axios.post('http://localhost:8080/comprobante/guardar', {
-      clienteId,
-      urlComprobante: url,
-      tipo: tipo || 'FACTURA' // o 'PRODUCTO', etc.
+    const response = await axios.post('http://localhost:8080/pedido/comprobante/guardar', {
+      pedidoId: Number(pedidoId), // camelCase
+      urlComprobante: url
     });
-
+    
     res.status(200).json({
       mensaje: 'Archivo subido y enviado al backend Java',
       url,
