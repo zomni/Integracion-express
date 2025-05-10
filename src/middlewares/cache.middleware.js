@@ -1,9 +1,7 @@
 // src/middlewares/cache.middleware.js
-const NodeCache = require('node-cache');
-const cache = new NodeCache();
-
+const cache = require('../utils/cache'); // usa el cache central
 const rutaTTL = {
-  '/java-api/usuario/ListaUsuarios': 60,
+  '/java-api/usuario': 60,
   '/java-api/producto': 120,
   '/java-api/categoria': 180,
   '/java-api/marca': 180,
@@ -18,7 +16,7 @@ const rutaTTL = {
 
 const cacheMiddleware = (req, res, next) => {
   const key = req.originalUrl;
-  const ttl = rutaTTL[key] || 60; // TTL por defecto: 60 segundos
+  const ttl = rutaTTL[key] || 60;
 
   const cachedResponse = cache.get(key);
   if (cachedResponse) {
@@ -30,7 +28,7 @@ const cacheMiddleware = (req, res, next) => {
 
   const originalJson = res.json.bind(res);
   res.json = (body) => {
-    cache.set(key, body, ttl); // aplicar TTL personalizado
+    cache.set(key, body, ttl);
     return originalJson({
       cache: false,
       data: body
@@ -40,11 +38,6 @@ const cacheMiddleware = (req, res, next) => {
   next();
 };
 
-const clearCache = () => {
-  cache.flushAll();
-};
-
 module.exports = {
-  cacheMiddleware,
-  clearCache
+  cacheMiddleware
 };

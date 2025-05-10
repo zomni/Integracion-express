@@ -1,10 +1,10 @@
 const express = require('express');
-const { clearCache } = require('../middlewares/cache.middleware');
+const cache = require('../utils/cache');
 
 const router = express.Router();
 
 router.get('/clear', (req, res) => {
-  clearCache();
+  cache.flushAll();
   res.json({ mensaje: 'Caché limpiado correctamente' });
 });
 

@@ -20,9 +20,9 @@ router.post('/recordatorio', enviarRecordatorio);
 router.post('/enviar', enviarGenerico);
 // GET /notificacion/historial - Obtener historial de mail
 router.get('/historial', obtenerHistorial);
-// GET /notificacion/descargar - Descargar historial de mail
+// GET /notificacion/historial/descargar - Descargar historial de mail
 router.get('/historial/descargar', descargarHistorial);
-
+// DELETE /notificacion/historial/borrar - Borrar historial de mail
 router.delete('/historial/borrar', borrarHistorial);
 
 

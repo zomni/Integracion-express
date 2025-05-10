@@ -135,6 +135,7 @@ router.delete('/sucursal/:id', proxyController.reenviarPeticion);
 
 // ========== TIPO ENTREGA ==========
 router.get('/tipoentrega', proxyController.reenviarPeticion);
+
 router.get('/tipoentrega/:id', proxyController.reenviarPeticion);
 router.post('/tipoentrega', proxyController.reenviarPeticion);
 router.delete('/tipoentrega/:id', proxyController.reenviarPeticion);
@@ -146,7 +147,13 @@ router.post('/tipomov', proxyController.reenviarPeticion);
 router.delete('/tipomov/:id', proxyController.reenviarPeticion);
 
 // ========== USUARIO ==========
-router.get('/usuario/listausuarios', proxyController.reenviarPeticion);
-router.post('/usuario/registrouser', proxyController.reenviarPeticion);
+router.get('/usuario', proxyController.reenviarPeticion);
+router.get('/usuario/:id', proxyController.reenviarPeticion);
+router.get('/usuario/usuarioporsucursal/:id', proxyController.reenviarPeticion)
+router.get('/usuario//usuarioporrol/:id', proxyController.reenviarPeticion);
+router.post('/usuario', proxyController.reenviarPeticion);
+router.post('/usuario/login', proxyController.reenviarPeticion);
+router.patch('/usuario/actualizarusuario/:id', proxyController.reenviarPeticion);
+router.patch('/usuario/cambiopassword/:id', proxyController.reenviarPeticion);
 
 module.exports = router;
