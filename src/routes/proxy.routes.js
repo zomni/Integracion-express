@@ -16,8 +16,9 @@ router.post('/ciudad', proxyController.reenviarPeticion);
 router.delete('/ciudad/:id', proxyController.reenviarPeticion);
 
 // ========== CLIENTES ==========
-router.get('/clientes/listaclientes', proxyController.reenviarPeticion);
-router.post('/clientes/registrocli', proxyController.reenviarPeticion);
+router.get('/cliente', proxyController.reenviarPeticion);
+router.post('/cliente', proxyController.reenviarPeticion);
+router.patch('/cliente/cambiopassword/:id', proxyController.reenviarPeticion);
 
 // ========== COMUNA ==========
 router.get('/comuna', proxyController.reenviarPeticion);
@@ -30,6 +31,7 @@ router.get('/despacho', proxyController.reenviarPeticion);
 router.get('/despacho/:id', proxyController.reenviarPeticion);
 router.post('/despacho', proxyController.reenviarPeticion);
 router.delete('/despacho/:id', proxyController.reenviarPeticion);
+router.patch('/despacho/actualizardespacho/:id', proxyController.reenviarPeticion);
 
 // ========== DETALLE PEDIDO ==========
 router.get('/detallepedido', proxyController.reenviarPeticion);
@@ -70,8 +72,10 @@ router.delete('/historialprecio/:id', proxyController.reenviarPeticion);
 // ========== INVENTARIO ==========
 router.get('/inventario', proxyController.reenviarPeticion);
 router.get('/inventario/:id', proxyController.reenviarPeticion);
+router.get('/inventario/sucursal/:sucursalId', proxyController.reenviarPeticion);
 router.post('/inventario', proxyController.reenviarPeticion);
 router.delete('/inventario/:id', proxyController.reenviarPeticion);
+router.patch('/inventario/actualizarInventario/:id', proxyController.reenviarPeticion);
 
 // ========== MARCA ==========
 router.get('/marca', proxyController.reenviarPeticion);
@@ -102,12 +106,14 @@ router.get('/pedido', proxyController.reenviarPeticion);
 router.get('/pedido/:id', proxyController.reenviarPeticion);
 router.post('/pedido', proxyController.reenviarPeticion);
 router.delete('/pedido/:id', proxyController.reenviarPeticion);
+router.post('/pedido/comprobante/guardar', proxyController.reenviarPeticion);
 
 // ========== PRODUCTO ==========
 router.get('/producto', proxyController.reenviarPeticion);
 router.get('/producto/:id', proxyController.reenviarPeticion);
 router.post('/producto', proxyController.reenviarPeticion);
 router.delete('/producto/:id', proxyController.reenviarPeticion);
+router.patch('/producto/actualizarproducto/:id', proxyController.reenviarPeticion);
 
 // ========== REGION ==========
 router.get('/region', proxyController.reenviarPeticion);
@@ -140,7 +146,7 @@ router.post('/tipomov', proxyController.reenviarPeticion);
 router.delete('/tipomov/:id', proxyController.reenviarPeticion);
 
 // ========== USUARIO ==========
-router.get('/usuario/ListaUsuarios', proxyController.reenviarPeticion);
+router.get('/usuario/listausuarios', proxyController.reenviarPeticion);
 router.post('/usuario/registrouser', proxyController.reenviarPeticion);
 
 module.exports = router;
