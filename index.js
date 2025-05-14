@@ -9,6 +9,7 @@ const PORT = 3000;
 // Middleware base
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 // Dirección del backend Java (ajustable desde .env si lo deseas)
@@ -21,6 +22,7 @@ const notificacionRoutes = require('./src/routes/notificacion.routes');
 const validacionRoutes = require('./src/routes/validacion.routes');
 const proxyRoutes = require('./src/routes/proxy.routes');
 const archivoRoutes = require('./src/routes/archivo.routes');
+const webpayRoutes = require('./src/routes/webpay.routes');
 
 // Middleware de caché
 const { cacheMiddleware } = require('./src/middlewares/cache.middleware');
@@ -57,6 +59,7 @@ app.use('/validacion', validacionRoutes);
 app.use('/java-api', proxyRoutes); // Gateway hacia Java
 app.use('/archivo', archivoRoutes);
 app.use('/uploads', express.static('uploads')); // Sirve los archivos estáticos desde /uploads
+app.use('/webpay', webpayRoutes);
 
 // Servidor
 app.listen(PORT, () => {

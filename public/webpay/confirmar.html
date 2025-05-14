@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Confirmación de Pago</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background: white;
+      padding: 2em;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .success {
+      font-size: 2em;
+      color: green;
+      margin-bottom: 10px;
+    }
+
+    .detalle {
+      margin-top: 1em;
+      text-align: left;
+    }
+
+    .detalle strong {
+      display: inline-block;
+      width: 130px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="success">✅ ¡Pago confirmado!</div>
+    <div class="detalle" id="detalles"></div>
+  </div>
+
+  <script>
+    // Obtener token_ws desde la URL (cuando Webpay redirige con método POST, confirm.html ya lo reenvió)
+    fetch('/webpay/confirmar', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({ token_ws: new URLSearchParams(window.location.search).get('token_ws') })
+    })
+    .then(res => res.json())
+    .then(data => {
+      const detalles = document.getElementById('detalles');
+      if (data.buy_order) {
+        detalles.innerHTML = `
+          <p><strong>Orden:</strong> ${data.buy_order}</p>
+          <p><strong>Monto:</strong> $${data.amount}</p>
+          <p><strong>Estado:</strong> ${data.status}</p>
+          <p><strong>Fecha:</strong> ${new Date(data.transaction_date).toLocaleString()}</p>
+          <p><strong>Tarjeta:</strong> **** **** **** ${data.card_detail.card_number}</p>
+        `;
+      } else {
+        detalles.innerHTML = `<p>Error al obtener detalles de la transacción.</p>`;
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      document.getElementById('detalles').innerHTML = `<p>Ocurrió un error.</p>`;
+    });
+  </script>
+</body>
+</html>
