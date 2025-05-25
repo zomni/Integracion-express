@@ -157,6 +157,7 @@ router.post('/usuario', proxyController.reenviarPeticion);
 router.post('/usuario/login', proxyController.reenviarPeticion);
 router.patch('/usuario/actualizarusuario/:id', proxyController.reenviarPeticion);
 router.patch('/usuario/cambiopassword/:id', proxyController.reenviarPeticion);
+router.delete('/usuario/:id', proxyController.reenviarPeticion);
 
 // ========== REPORTE ==========
 router.get('/reporte/ventas', proxyController.reenviarPeticion);
