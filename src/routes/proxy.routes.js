@@ -100,6 +100,7 @@ router.get('/pago', proxyController.reenviarPeticion);
 router.get('/pago/:id', proxyController.reenviarPeticion);
 router.post('/pago', proxyController.reenviarPeticion);
 router.delete('/pago/:id', proxyController.reenviarPeticion);
+router.patch('/pago/actualizarEstado/:id', proxyController.reenviarPeticion);
 
 // ========== PEDIDO ==========
 router.get('/pedido', proxyController.reenviarPeticion);
@@ -107,6 +108,7 @@ router.get('/pedido/:id', proxyController.reenviarPeticion);
 router.post('/pedido', proxyController.reenviarPeticion);
 router.delete('/pedido/:id', proxyController.reenviarPeticion);
 router.post('/pedido/comprobante/guardar', proxyController.reenviarPeticion);
+router.patch('/pedido/cambiarEstado/:id', proxyController.reenviarPeticion);
 
 // ========== PRODUCTO ==========
 router.get('/producto', proxyController.reenviarPeticion);
@@ -155,5 +157,11 @@ router.post('/usuario', proxyController.reenviarPeticion);
 router.post('/usuario/login', proxyController.reenviarPeticion);
 router.patch('/usuario/actualizarusuario/:id', proxyController.reenviarPeticion);
 router.patch('/usuario/cambiopassword/:id', proxyController.reenviarPeticion);
+
+// ========== REPORTE ==========
+router.get('/reporte/ventas', proxyController.reenviarPeticion);
+router.get('/reporte/pagos', proxyController.reenviarPeticion);
+router.get('/reporte/productos-mas-vendidos', proxyController.reenviarPeticion);
+router.get('/reporte/dashboard', proxyController.reenviarPeticion);
 
 module.exports = router;

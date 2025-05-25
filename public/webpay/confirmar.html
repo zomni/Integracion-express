@@ -2,76 +2,55 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Confirmación de Pago</title>
+  <title>Pago confirmado</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f4f4;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
-    }
-
-    .container {
-      background: white;
-      padding: 2em;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.2);
-      max-width: 400px;
-      text-align: center;
-    }
-
-    .success {
-      font-size: 2em;
-      color: green;
-      margin-bottom: 10px;
-    }
-
-    .detalle {
-      margin-top: 1em;
-      text-align: left;
-    }
-
-    .detalle strong {
-      display: inline-block;
-      width: 130px;
-    }
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    h2 { color: green; }
+    .dato { margin: 10px 0; }
+    .label { font-weight: bold; }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="success">✅ ¡Pago confirmado!</div>
-    <div class="detalle" id="detalles"></div>
-  </div>
+  <h2>✅ ¡Pago confirmado exitosamente!</h2>
+  <div id="detalles"></div>
+  <p id="error" style="color: red;"></p>
 
   <script>
-    // Obtener token_ws desde la URL (cuando Webpay redirige con método POST, confirm.html ya lo reenvió)
-    fetch('/webpay/confirmar', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams({ token_ws: new URLSearchParams(window.location.search).get('token_ws') })
-    })
-    .then(res => res.json())
-    .then(data => {
-      const detalles = document.getElementById('detalles');
-      if (data.buy_order) {
-        detalles.innerHTML = `
-          <p><strong>Orden:</strong> ${data.buy_order}</p>
-          <p><strong>Monto:</strong> $${data.amount}</p>
-          <p><strong>Estado:</strong> ${data.status}</p>
-          <p><strong>Fecha:</strong> ${new Date(data.transaction_date).toLocaleString()}</p>
-          <p><strong>Tarjeta:</strong> **** **** **** ${data.card_detail.card_number}</p>
-        `;
-      } else {
-        detalles.innerHTML = `<p>Error al obtener detalles de la transacción.</p>`;
-      }
-    })
-    .catch(err => {
-      console.error(err);
-      document.getElementById('detalles').innerHTML = `<p>Ocurrió un error.</p>`;
-    });
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get("token_ws");
+
+    if (!token) {
+      document.getElementById("error").innerText = "No se encontró el token_ws.";
+    } else {
+      fetch("http://localhost:3000/webpay/confirmar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token_ws: token })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.mensaje === "Transacción confirmada") {
+          const detalles = data.datos;
+          const contenedor = document.getElementById("detalles");
+          
+          contenedor.innerHTML = `
+            <div class="dato"><span class="label">Estado:</span> ${detalles.status}</div>
+            <div class="dato"><span class="label">Monto:</span> $${detalles.amount}</div>
+            <div class="dato"><span class="label">Orden de compra:</span> ${detalles.buy_order}</div>
+            <div class="dato"><span class="label">ID de sesión:</span> ${detalles.session_id}</div>
+            <div class="dato"><span class="label">Últimos 4 dígitos tarjeta:</span> ${detalles.card_detail?.card_number || 'No disponible'}</div>
+            <div class="dato"><span class="label">Código de autorización:</span> ${detalles.authorization_code || 'No disponible'}</div>
+            <div class="dato"><span class="label">Fecha de transacción:</span> ${detalles.transaction_date || 'No disponible'}</div>
+          `;
+        } else {
+          document.getElementById("error").innerText = "⚠️ No se pudo confirmar la transacción.";
+        }
+      })
+      .catch(error => {
+        console.error("Error:", error);
+        document.getElementById("error").innerText = "❌ Error al confirmar la transacción.";
+      });
+    }
   </script>
 </body>
 </html>

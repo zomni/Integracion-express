@@ -31,9 +31,13 @@ const obtenerTTL = (url) => {
 const reenviarPeticion = async (req, res) => {
   const key = req.originalUrl;
   const url = `${JAVA_API}${req.url}`;
+  const method = req.method.toLowerCase();
 
-  // Solo caché para GET
-  if (req.method === 'GET') {
+  // Si se solicita PDF
+  const quierePDF = req.headers.accept === 'application/pdf';
+
+  // Solo caché para GET y si no es PDF
+  if (method === 'get' && !quierePDF) {
     const cached = cache.get(key);
     if (cached) {
       return res.status(200).json({ cache: true, data: cached });
@@ -41,14 +45,23 @@ const reenviarPeticion = async (req, res) => {
   }
 
   try {
-    const response = await axios({
-      method: req.method,
+    const axiosConfig = {
+      method,
       url,
-      data: req.body,
-      headers: { ...req.headers, host: undefined }
-    });
+      headers: { ...req.headers, host: undefined },
+      responseType: quierePDF ? 'stream' : 'json',
+      data: ['post', 'put', 'patch'].includes(method) ? req.body : undefined
+    };
 
-    if (req.method === 'GET') {
+    const response = await axios(axiosConfig);
+
+    if (quierePDF) {
+      res.setHeader('Content-Type', 'application/pdf');
+      return response.data.pipe(res);
+    }
+
+    // Guardar en caché si aplica
+    if (method === 'get') {
       const ttl = obtenerTTL(req.originalUrl);
       cache.set(key, response.data, ttl);
       return res.status(response.status).json({ cache: false, data: response.data });
