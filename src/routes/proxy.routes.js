@@ -158,11 +158,15 @@ router.post('/usuario/login', proxyController.reenviarPeticion);
 router.patch('/usuario/actualizarusuario/:id', proxyController.reenviarPeticion);
 router.patch('/usuario/cambiopassword/:id', proxyController.reenviarPeticion);
 router.delete('/usuario/:id', proxyController.reenviarPeticion);
+router.get('/usuario/admin/solo-admin', proxyController.reenviarPeticion);
 
 // ========== REPORTE ==========
 router.get('/reporte/ventas', proxyController.reenviarPeticion);
 router.get('/reporte/pagos', proxyController.reenviarPeticion);
 router.get('/reporte/productos-mas-vendidos', proxyController.reenviarPeticion);
 router.get('/reporte/dashboard', proxyController.reenviarPeticion);
+
+// ========== AUTENTICACIÓN ==========
+router.post('/auth/login', proxyController.reenviarPeticion);
 
 module.exports = router;
