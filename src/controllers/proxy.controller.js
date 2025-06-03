@@ -1,5 +1,4 @@
 const axios = require('axios');
-const NodeCache = require('node-cache');
 const JAVA_API = 'http://localhost:8080';
 const cache = require('../utils/cache');
 
@@ -32,8 +31,6 @@ const reenviarPeticion = async (req, res) => {
   const key = req.originalUrl;
   const url = `${JAVA_API}${req.url}`;
   const method = req.method.toLowerCase();
-
-  // Si se solicita PDF
   const quierePDF = req.headers.accept === 'application/pdf';
 
   // Solo caché para GET y si no es PDF
@@ -55,24 +52,33 @@ const reenviarPeticion = async (req, res) => {
 
     const response = await axios(axiosConfig);
 
-    if (quierePDF) {
+    if (quierePDF && response.status >= 200 && response.status < 300) {
       res.setHeader('Content-Type', 'application/pdf');
       return response.data.pipe(res);
     }
 
-    // Guardar en caché si aplica
-    if (method === 'get') {
+    // Guardar en caché solo si la respuesta fue exitosa
+    if (method === 'get' && !quierePDF && response.status >= 200 && response.status < 300) {
       const ttl = obtenerTTL(req.originalUrl);
       cache.set(key, response.data, ttl);
-      return res.status(response.status).json({ cache: false, data: response.data });
     }
 
-    return res.status(response.status).json(response.data);
+    return res.status(response.status).json({ cache: false, data: response.data });
+
   } catch (error) {
-    console.error('Error en el proxy:', error.message);
-    res.status(error.response?.status || 500).json({
+    const status = error.response?.status || 500;
+
+    if (quierePDF) {
+      res.setHeader('Content-Type', 'text/plain');
+      return res.status(status).send(`Error al generar el PDF: ${error.message}`);
+    }
+
+    const data = error.response?.data || { mensaje: error.message };
+    console.error('Error en el proxy:', data);
+
+    return res.status(status).json({
       error: 'Error en el gateway a Java',
-      detalle: error.response?.data || {}
+      detalle: data
     });
   }
 };
