@@ -4,17 +4,14 @@ const cache = require('../utils/cache');
 
 // TTL personalizado por ruta
 const rutaTTL = {
-  '/java-api/usuario/:id': 60,
-  '/java-api/producto': 120,
-  '/java-api/categoria': 180,
-  '/java-api/marca': 180,
-  '/java-api/sucursal': 300,
-  '/java-api/region': 300,
-  '/java-api/ciudad': 300,
-  '/java-api/comuna': 300,
-  '/java-api/tipoentrega': 300,
-  '/java-api/metodopago': 300,
-  '/java-api/rol': 300
+  '/java-api/usuario/:id': 300,
+  '/java-api/producto': 600,
+  '/java-api/categoria': 3600,
+  '/java-api/marca': 3600,
+  '/java-api/sucursal': 1800,
+  '/java-api/region': 86400,
+  '/java-api/ciudad': 86400,
+  '/java-api/comuna': 86400
 };
 
 // Función para calcular TTL según la ruta con comodines
