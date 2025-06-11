@@ -115,7 +115,7 @@ router.get('/producto', proxyController.reenviarPeticion);
 router.get('/producto/:id', proxyController.reenviarPeticion);
 router.post('/producto', proxyController.reenviarPeticion);
 router.delete('/producto/:id', proxyController.reenviarPeticion);
-router.patch('/producto/actualizarproducto/:id', proxyController.reenviarPeticion);
+router.patch('/producto/:id', proxyController.reenviarPeticion);
 
 // ========== REGION ==========
 router.get('/region', proxyController.reenviarPeticion);
@@ -158,7 +158,6 @@ router.post('/usuario/login', proxyController.reenviarPeticion);
 router.patch('/usuario/actualizarusuario/:id', proxyController.reenviarPeticion);
 router.patch('/usuario/cambiopassword/:id', proxyController.reenviarPeticion);
 router.delete('/usuario/:id', proxyController.reenviarPeticion);
-router.get('/usuario/admin/solo-admin', proxyController.reenviarPeticion);
 
 // ========== REPORTE ==========
 router.get('/reporte/ventas', proxyController.reenviarPeticion);
